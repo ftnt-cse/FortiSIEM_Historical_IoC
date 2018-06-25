@@ -1,25 +1,36 @@
 # FortiSIEM_Historical_IoC
-enables FortiSIEM to find historical IoC after each FortiGuard IoC update
+enables FortiSIEM to find previously infected machines after each FortiGuard IoC update.
 
-##Intro:
+**Intro:**
 FortiSIEM as designed checks the real-time events for IoC fetches from various threat intelligence sources. 
 This project aims to add historical IoC visibility into FortiSIEM.
 
-##How it works:
-Each time the IoC is updated we run a Historical_IoC.py which has to be deployed on FSM instance. It will:
-1.	Query FortiSIEM for the last X seconds session table summary {Srcip,dstip,Count(hits)} using FortiSIEM REST API
-2.	Query FortiSIEM local database for the list of the current FortiGuard IoC (dstip)
-3.	Send a syslog to FortiSIEM for each IoC match. The syslog uses 
-4.	The syslog triggers a Historical IoC Detected incident
+**Prerequisites:**
+1. FortiSIEM 5.X instance
+2. Python 2.7.7+
+3. python pg8000 package
+4. a valid postgresql credentials (create user and having phoenixdb privileges)
 
-##Components:
+**How it works:**
+1. Each time the IoC database is updated an "IoC update incident" is generated
+2. The generated incident triggers “Historical_IoC.py” python script through a remediation action
+3. The script will:
+- Query FortiSIEM for the last X hours sessions summary {Srcip,dstip,Count(hits)} using FortiSIEM REST API. “report_hours” - - - variable is used to determine the report time length, default is 10
+- Query FortiSIEM local database for the list of the current FortiGuard IoC (dstip)
+- The script then compares the destination IPs of the past hours with the newly downloaded IoCs 
+- For each match, a syslog message with the incident details:
+ * time of the first connection
+ * source IP
+ * Destination IP
+ * Connection count
+Is sent to FortiSIEM with PHBox format. The event then can be used to remediate the infected machines.
+
+**Components:**
 IoC updated rule
 Historical_IoC.py
 
-##Installation:
+**Installation:**
 1.	Copy Historical_IoC.py to FortiSIEM (typically to /home/admin/scripts)
-2.	Import the IoC updated rule
-3.	Import Historical IoC Detected rule
-4.	Set Historical_IoC.py as remediation script for the incident
+2.	Import the IoC updated rule in FortiSIEM and make sure it triggers an incident each time IoCs are updated from the cloud
+4.	Set Historical_IoC.py as remediation script for the IoC update incident
 5.	(optional) set a remediation script for Historical IoC Detected incident
-
