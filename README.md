@@ -28,8 +28,8 @@ machines. the syslog message includes:
 
 
 **Components:**
-IoC updated rule
-Historical_IoC.py
+- IoC updated rule
+- Historical_IoC.py
 
 **Installation:**
 1.	Copy Historical_IoC.py to FortiSIEM (typically to /home/admin/scripts)
