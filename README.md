@@ -19,11 +19,12 @@ This project aims to add historical IoC visibility into FortiSIEM.
 - variable is used to determine the report time length, default is 10
 - Query FortiSIEM local database for the list of the current FortiGuard IoC (dstip)
 - The script then compares the destination IPs of the past hours with the newly downloaded IoCs 
-- For each match, a syslog message is sent to FortiSIEM with PHBox format. The event then can be used to remediate the infected - machines. the syslog message includes:
- - Time of the first connection
- - Source IP
- - Destination IP
- - Connection count
+- For each match, a syslog message is sent to FortiSIEM with PHBox format. The event then can be used to remediate the infected 
+machines. the syslog message includes:
+  - Time of the first connection
+  - Source IP
+  - Destination IP
+  - Connection count
 
 
 **Components:**
