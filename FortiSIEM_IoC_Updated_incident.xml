@@ -1,0 +1,28 @@
+<Rules>
+<Rule active="false" advanced="true" custId="1" dbId="39749050" entityVersion="0" fireInternalIncident="false" functionCategory="CHANGE" id="39749050" phIncidentCategory="Other" type="Rule">
+<Name>Fortinet_IOC_Update</Name>
+<Description/>
+<Remediation/>
+<CustomerScope groupByEachCustomer="true">
+<Include>1</Include>
+<Exclude/>
+</CustomerScope>
+<IncidentDef eventType="Fortinet_IOC_Update" eventTypeGroup="PH_SYS_EVENT_PH_RULE_CHANGE" fireFreq="3600" severity="7">
+<ArgList>eventType=Filter_1.eventType</ArgList>
+</IncidentDef>
+<DynWatchListDef/>
+<PatternClause window="300">
+<SubPattern id="39748901" name="Filter_1">
+<SingleEvtConstr>phEventCategory = 2  AND  eventType = "PH_AUDIT_OBJECT_UPDATED"  AND  rawEventMsg CONTAIN "ioc"</SingleEvtConstr>
+<GroupEvtConstr>COUNT(*) &gt;= 2</GroupEvtConstr>
+<GroupByAttr>eventType</GroupByAttr>
+</SubPattern>
+</PatternClause>
+<userRoles>
+<roles custId="1">1681500</roles>
+</userRoles>
+<TriggerEventDisplay>
+<AttrList>phRecvTime,eventType,reptDevIpAddr,rawEventMsg</AttrList>
+</TriggerEventDisplay>
+</Rule>
+</Rules>
