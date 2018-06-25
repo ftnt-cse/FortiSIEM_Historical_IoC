@@ -15,15 +15,15 @@ This project aims to add historical IoC visibility into FortiSIEM.
 1. Each time the IoC database is updated an "IoC update incident" is generated
 2. The generated incident triggers “Historical_IoC.py” python script through a remediation action
 3. The script will:
--Query FortiSIEM for the last X hours sessions summary {Srcip,dstip,Count(hits)} using FortiSIEM REST API. “report_hours”
--variable is used to determine the report time length, default is 10
--Query FortiSIEM local database for the list of the current FortiGuard IoC (dstip)
--The script then compares the destination IPs of the past hours with the newly downloaded IoCs 
--For each match, a syslog message is sent to FortiSIEM with PHBox format. The event then can be used to remediate the infected -machines. the syslog message includes:
- -time of the first connection
- -source IP
- -Destination IP
- -Connection count
+- Query FortiSIEM for the last X hours sessions summary {Srcip,dstip,Count(hits)} using FortiSIEM REST API. “report_hours”
+- variable is used to determine the report time length, default is 10
+- Query FortiSIEM local database for the list of the current FortiGuard IoC (dstip)
+- The script then compares the destination IPs of the past hours with the newly downloaded IoCs 
+- For each match, a syslog message is sent to FortiSIEM with PHBox format. The event then can be used to remediate the infected - machines. the syslog message includes:
+ - Time of the first connection
+ - Source IP
+ - Destination IP
+ - Connection count
 
 
 **Components:**
